@@ -1,0 +1,77 @@
+.photo {
+  height: 500px;
+  width: 500px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.center-screen {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+}
+
+.panel {
+  float: left;
+  position: relative;
+}
+
+.or {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-top: -35px;
+  margin-left: -35px;
+  width: 72px;
+  height: 71px;
+  background-image: url("https://static.either.io/v2/img/yr-common-sprite.gz.png");
+  background-position: -97px -79px;
+  background-repeat: none;
+  z-index: 5;
+}
+
+.options {
+  text-transform: uppercase;
+}
+
+.choice-block {
+  height: 250px;
+  width: 460px;
+  font: bold 22px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-align: center;
+  line-height: 200px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  -webkit-font-smoothing: antialiased;
+  border: 1px solid #000;
+  -webkit-box-shadow: 0 3px 6px #000000;
+  -moz-box-shadow: 0 3px 6px #000000;
+  box-shadow: 0 3px 6px #000000;
+  color: #fff;
+  float: left;
+  background-image: url("https://static.either.io/v2/img/choice-box-bg.gz.jpg");
+  background-repeat: none;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+}
+
+.blue-choice {
+  background-position: 0px 0px;
+  background-color: #6dccf2;
+  cursor: pointer;
+}
+
+.red-choice {
+  background-position: -460px 0px;
+  background-color: #cc2323;
+  cursor: pointer;
+}
