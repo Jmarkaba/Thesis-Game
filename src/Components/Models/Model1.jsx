@@ -5,7 +5,7 @@ const imgArr = [];
 var numImages = 0;
 
 const images = importAll(
-  require.context("./../../images/images1", false, /\.(png|jpe?g|svg)$/)
+  require.context("./../../images", false, /\.(png|jpe?g|svg)$/)
 );
 
 for (const property in images) {
@@ -46,7 +46,7 @@ function Model1(props) {
   });
 
   function allInOne(event) {
-    console.log(event.target.innerText.toLowerCase());
+    // console.log(event.target.innerText.toLowerCase());
 
     if (
       imgArr[count].toLowerCase().includes(event.target.innerText.toLowerCase())
@@ -69,23 +69,17 @@ function Model1(props) {
           />
         </div>
         <div id="numbers" style={{ textAlign: "center" }}>
-          <div
-            id="correct"
-            style={{ display: "inline-block", marginRight: 20 }}
-          >
-            <p style={{ fontSize: 20, marginBottom: 0 }}>CORRECT</p>
-            <strong>
-              <p style={{ fontSize: 30, marginTop: 0 }}>
-                {right}/{count}
-              </p>
-            </strong>
+          <div>
+            <p style={{ fontSize: 30, marginTop: 0 }}>
+              Thank you so much for participating!
+            </p>
           </div>
-          <div id="accuracy" style={{ display: "inline-block" }}>
+          {/* <div id="accuracy" style={{ display: "inline-block" }}>
             <p style={{ fontSize: 20, marginBottom: 0 }}>ACCURACY</p>
             <strong>
               <p style={{ fontSize: 30, marginTop: 0 }}>{accuracy}%</p>
             </strong>
-          </div>
+          </div> */}
         </div>
       </div>
     );
@@ -132,16 +126,16 @@ function Model1(props) {
               <p style={{ fontSize: 20, marginBottom: 0 }}>CORRECT</p>
               <strong>
                 <p style={{ fontSize: 30, marginTop: 0 }}>
-                  {right}/{count}
+                  {count}/{numImages}
                 </p>
               </strong>
             </div>
-            <div id="accuracy" style={{ display: "inline-block" }}>
+            {/* <div id="accuracy" style={{ display: "inline-block" }}>
               <p style={{ fontSize: 20, marginBottom: 0 }}>ACCURACY</p>
               <strong>
                 <p style={{ fontSize: 30, marginTop: 0 }}>{accuracy}%</p>
               </strong>
-            </div>
+            </div> */}
           </div>
         </footer>
       </div>
