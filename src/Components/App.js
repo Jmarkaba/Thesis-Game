@@ -1,4 +1,3 @@
-import { blue } from "@material-ui/core/colors";
 import "./App.css";
 import Header from "./Header";
 import Model1 from "./Models/Model1";

@@ -1,16 +1,55 @@
 import React, { useState, useEffect } from "react";
+import Button from "@material-ui/core/Button";
 import "./Model.css";
+import axios from "axios";
 
-const imgArr = [];
 var numImages = 0;
 
-const images = importAll(
-  require.context("./../../images", false, /\.(png|jpe?g|svg)$/)
+// const real = importAll(
+//   require.context("./../../images/real", false, /\.(png|jpe?g|svg)$/)
+// );
+
+const model1 = objToArr(
+  importAll(
+    require.context("./../../images/model1", false, /\.(png|jpe?g|svg)$/)
+  )
 );
 
-for (const property in images) {
-  imgArr.push(`${property}`);
-  numImages += 1;
+const model2 = objToArr(
+  importAll(
+    require.context("./../../images/model2", false, /\.(png|jpe?g|svg)$/)
+  )
+);
+
+const model3 = objToArr(
+  importAll(
+    require.context("./../../images/model3", false, /\.(png|jpe?g|svg)$/)
+  )
+);
+
+// const model4 = importAll(
+//   require.context("./../../images/model4", false, /\.(png|jpe?g|svg)$/)
+// );
+
+// shuffle(real);
+shuffle(model1);
+shuffle(model2);
+shuffle(model3);
+// shuffle(model4);
+// const combined = [].concat.apply([], [real.slice(0,30), model1.slice(0,30), model2.slice(0,30), model3.slice(0,30), model4.slice(0,30)])
+const combined = [].concat.apply(
+  [],
+  [model1.slice(0, 30), model2.slice(0, 30), model3.slice(0, 30)]
+);
+shuffle(combined);
+numImages = combined.length;
+
+function objToArr(obj) {
+  let arr = [];
+  for (const item in obj) {
+    arr.push(obj[item].default);
+  }
+  return arr;
 }
 
 function importAll(r) {
@@ -28,58 +67,72 @@ function shuffle(array) {
   }
 }
 
-shuffle(imgArr);
-
-function Model1(props) {
+function Model1(props, event) {
   const [count, setCount] = useState(0);
   const [right, setRight] = useState(0);
-  const [accuracy, setAccuracy] = useState(0);
+  const [result, setResult] = useState([]);
+  const [done, setDone] = useState(false);
 
   useEffect(() => {
     setRight(right);
     setCount(count);
-    if (count == 0) {
-      setAccuracy(0);
-    } else {
-      setAccuracy(Math.floor((right * 100) / count));
+    setDone(done);
+
+    if (count >= numImages || (done && count > 0)) {
+      axios
+        .post(
+          "https://sheet.best/api/sheets/e30f7cf2-4d32-4f88-adc5-87bfb5425203",
+          result,
+          { headers: { "Content-Type": "application/json" } }
+        )
+        .then((response) => {
+          console.log(response);
+        });
     }
-  });
+  }, [right, count, done]);
 
   function allInOne(event) {
-    // console.log(event.target.innerText.toLowerCase());
-
     if (
-      imgArr[count].toLowerCase().includes(event.target.innerText.toLowerCase())
+      combined[count]
+        .toLowerCase()
+        .includes(event.target.innerText.toLowerCase())
     ) {
       setRight(right + 1);
       setCount(count + 1);
+      setResult((result) => [
+        ...result,
+        {
+          file: combined[count].slice(0, -13).slice(14) + ".png",
+          chosen: event.target.innerText.toLowerCase(),
+          actual: event.target.innerText.toLowerCase(),
+          result: "correct",
+        },
+      ]);
     } else {
       setCount(count + 1);
+      setResult((result) => [
+        ...result,
+        {
+          file: combined[count].slice(0, -13).slice(14) + ".png",
+          chosen: event.target.innerText.toLowerCase(),
+          actual: combined[count].toLowerCase().includes("real")
+            ? "real"
+            : "fake",
+          result: "incorrect",
+        },
+      ]);
     }
   }
 
-  if (count >= numImages) {
+  if (count >= numImages || done) {
     return (
       <div id="Model 1" className="center-screen">
-        <div id="Photo" className="">
-          <img
-            alt={`Picture ${count}`}
-            className="photo"
-            src={images[imgArr[count - 1]].default}
-          />
-        </div>
         <div id="numbers" style={{ textAlign: "center" }}>
           <div>
             <p style={{ fontSize: 30, marginTop: 0 }}>
               Thank you so much for participating!
             </p>
           </div>
-          {/* <div id="accuracy" style={{ display: "inline-block" }}>
-            <p style={{ fontSize: 20, marginBottom: 0 }}>ACCURACY</p>
-            <strong>
-              <p style={{ fontSize: 30, marginTop: 0 }}>{accuracy}%</p>
-            </strong>
-          </div> */}
         </div>
       </div>
     );
@@ -88,11 +141,7 @@ function Model1(props) {
       <div id="Model 1" className="center-screen">
         <div id="separate" className="grid">
           <div id="Photo" className="">
-            <img
-              alt={`Picture ${count}`}
-              className="photo"
-              src={images[imgArr[count]].default}
-            />
+            <img alt={`Pic ${count}`} className="photo" src={combined[count]} />
           </div>
           <div className="panel">
             <div className="or"></div>
@@ -116,28 +165,38 @@ function Model1(props) {
             </div>
           </div>
         </div>
-
-        <footer>
-          <div id="numbers" style={{ float: "right" }}>
+        <div>
+          <div id="numbers">
+            <div
+              id="done"
+              style={{ display: "inline-block", float: "left", marginTop: 25 }}
+            >
+              <Button
+                variant="contained"
+                size="large"
+                color="primary"
+                onClick={() => setDone(true)}
+              >
+                Done
+              </Button>
+            </div>
             <div
               id="correct"
-              style={{ display: "inline-block", marginRight: 20 }}
+              style={{
+                display: "inline-block",
+                marginRight: 20,
+                float: "right",
+              }}
             >
-              <p style={{ fontSize: 20, marginBottom: 0 }}>CORRECT</p>
+              <p style={{ fontSize: 20, marginBottom: 0 }}>Image</p>
               <strong>
                 <p style={{ fontSize: 30, marginTop: 0 }}>
                   {count}/{numImages}
                 </p>
               </strong>
             </div>
-            {/* <div id="accuracy" style={{ display: "inline-block" }}>
-              <p style={{ fontSize: 20, marginBottom: 0 }}>ACCURACY</p>
-              <strong>
-                <p style={{ fontSize: 30, marginTop: 0 }}>{accuracy}%</p>
-              </strong>
-            </div> */}
           </div>
-        </footer>
+        </div>
       </div>
     );
   }
