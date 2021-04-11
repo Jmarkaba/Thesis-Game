@@ -5,9 +5,9 @@ import axios from "axios";
 
 var numImages = 0;
 
-// const real = importAll(
-//   require.context("./../../images/real", false, /\.(png|jpe?g|svg)$/)
-// );
+const real = importAll(
+  require.context("./../../images/real", false, /\.(png|jpe?g|svg)$/)
+);
 
 const model1 = objToArr(
   importAll(
@@ -56,10 +56,6 @@ const combined = [].concat.apply(
     model5.slice(0, 30),
   ]
 );
-// const combined = [].concat.apply(
-//   [],
-//   [model1.slice(0, 30), model2.slice(0, 30), model3.slice(0, 30)]
-// );
 shuffle(combined);
 numImages = combined.length;
 
