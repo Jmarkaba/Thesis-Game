@@ -45,7 +45,17 @@ shuffle(model2);
 shuffle(model3);
 shuffle(model4);
 shuffle(model5);
-// const combined = [].concat.apply([], [real.slice(0,150), model1.slice(0,30), model2.slice(0,30), model3.slice(0,30), model4.slice(0,30), model5.slice(0,30)])
+const combined = [].concat.apply(
+  [],
+  [
+    real.slice(0, 150),
+    model1.slice(0, 30),
+    model2.slice(0, 30),
+    model3.slice(0, 30),
+    model4.slice(0, 30),
+    model5.slice(0, 30),
+  ]
+);
 // const combined = [].concat.apply(
 //   [],
 //   [model1.slice(0, 30), model2.slice(0, 30), model3.slice(0, 30)]
