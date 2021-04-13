@@ -5,8 +5,8 @@ import axios from "axios";
 
 var numImages = 0;
 
-const real = importAll(
-  require.context("./../../images/real", false, /\.(png|jpe?g|svg)$/)
+const real = objToArr(
+  importAll(require.context("./../../images/real", false, /\.(png|jpe?g|svg)$/))
 );
 
 const model1 = objToArr(
