@@ -5,39 +5,13 @@ import axios from "axios";
 
 var numImages = 0;
 
-const real = objToArr(
-  importAll(require.context("./../../images/real", false, /\.(png|jpe?g|svg)$/))
-);
-
-const model1 = objToArr(
-  importAll(
-    require.context("./../../images/model1", false, /\.(png|jpe?g|svg)$/)
-  )
-);
-
-const model2 = objToArr(
-  importAll(
-    require.context("./../../images/model2", false, /\.(png|jpe?g|svg)$/)
-  )
-);
-
-const model3 = objToArr(
-  importAll(
-    require.context("./../../images/model3", false, /\.(png|jpe?g|svg)$/)
-  )
-);
-
-const model4 = objToArr(
-  importAll(
-    require.context("./../../images/model4", false, /\.(png|jpe?g|svg)$/)
-  )
-);
-
-const model5 = objToArr(
-  importAll(
-    require.context("./../../images/model5", false, /\.(png|jpe?g|svg)$/)
-  )
-);
+const zeroPad = (num, places) => String(num).padStart(places, '0');
+const real = [...Array(2663).keys()].map((v, _) => "https://thesis-gan-storage.s3-us-west-2.amazonaws.com/real/realimage" + zeroPad(v, 4) + ".png");
+const model1 = [...Array(2672).keys()].map((v, _) => "https://thesis-gan-storage.s3-us-west-2.amazonaws.com/model1/fakeModel1images" + zeroPad(v, 4) + ".png");
+const model2 = [...Array(2677).keys()].map((v, _) => "https://thesis-gan-storage.s3-us-west-2.amazonaws.com/model2/fakeModel2images" + zeroPad(v, 4) + ".png");
+const model3 = [...Array(2681).keys()].map((v, _) => "https://thesis-gan-storage.s3-us-west-2.amazonaws.com/model3/fakeModel3images" + zeroPad(v, 4) + ".png");
+const model4 = [...Array(2663).keys()].map((v, _) => "https://thesis-gan-storage.s3-us-west-2.amazonaws.com/model4/fakeModel4images" + zeroPad(v, 4) + ".png");
+const model5 = [...Array(2672).keys()].map((v, _) => "https://thesis-gan-storage.s3-us-west-2.amazonaws.com/model5/fakeModel5images" + zeroPad(v, 4) + ".png");
 
 shuffle(real);
 shuffle(model1);
@@ -59,21 +33,6 @@ const combined = [].concat.apply(
 shuffle(combined);
 numImages = combined.length;
 
-function objToArr(obj) {
-  let arr = [];
-  for (const item in obj) {
-    arr.push(obj[item].default);
-  }
-  return arr;
-}
-
-function importAll(r) {
-  let images = {};
-  r.keys().map((item, index) => {
-    images[item.replace("./", "")] = r(item);
-  });
-  return images;
-}
 
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
