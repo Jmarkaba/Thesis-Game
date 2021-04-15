@@ -1,17 +1,48 @@
 import React, { useState, useEffect } from "react";
+import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import "./Model.css";
 import axios from "axios";
 
 var numImages = 0;
 
-const zeroPad = (num, places) => String(num).padStart(places, '0');
-const real = [...Array(2663).keys()].map((v, _) => "https://thesis-gan-storage.s3-us-west-2.amazonaws.com/real/realimage" + zeroPad(v, 4) + ".png");
-const model1 = [...Array(2672).keys()].map((v, _) => "https://thesis-gan-storage.s3-us-west-2.amazonaws.com/model1/fakeModel1images" + zeroPad(v, 4) + ".png");
-const model2 = [...Array(2677).keys()].map((v, _) => "https://thesis-gan-storage.s3-us-west-2.amazonaws.com/model2/fakeModel2images" + zeroPad(v, 4) + ".png");
-const model3 = [...Array(2681).keys()].map((v, _) => "https://thesis-gan-storage.s3-us-west-2.amazonaws.com/model3/fakeModel3images" + zeroPad(v, 4) + ".png");
-const model4 = [...Array(2663).keys()].map((v, _) => "https://thesis-gan-storage.s3-us-west-2.amazonaws.com/model4/fakeModel4images" + zeroPad(v, 4) + ".png");
-const model5 = [...Array(2672).keys()].map((v, _) => "https://thesis-gan-storage.s3-us-west-2.amazonaws.com/model5/fakeModel5images" + zeroPad(v, 4) + ".png");
+const zeroPad = (num, places) => String(num).padStart(places, "0");
+const real = [...Array(2663).keys()].map(
+  (v, _) =>
+    "https://thesis-gan-storage.s3-us-west-2.amazonaws.com/real/realimage" +
+    zeroPad(v, 4) +
+    ".png"
+);
+const model1 = [...Array(2672).keys()].map(
+  (v, _) =>
+    "https://thesis-gan-storage.s3-us-west-2.amazonaws.com/model1/fakeModel1images" +
+    zeroPad(v, 4) +
+    ".png"
+);
+const model2 = [...Array(2677).keys()].map(
+  (v, _) =>
+    "https://thesis-gan-storage.s3-us-west-2.amazonaws.com/model2/fakeModel2images" +
+    zeroPad(v, 4) +
+    ".png"
+);
+const model3 = [...Array(2681).keys()].map(
+  (v, _) =>
+    "https://thesis-gan-storage.s3-us-west-2.amazonaws.com/model3/fakeModel3images" +
+    zeroPad(v, 4) +
+    ".png"
+);
+const model4 = [...Array(2663).keys()].map(
+  (v, _) =>
+    "https://thesis-gan-storage.s3-us-west-2.amazonaws.com/model4/fakeModel4images" +
+    zeroPad(v, 4) +
+    ".png"
+);
+const model5 = [...Array(2672).keys()].map(
+  (v, _) =>
+    "https://thesis-gan-storage.s3-us-west-2.amazonaws.com/model5/fakeModel5images" +
+    zeroPad(v, 4) +
+    ".png"
+);
 
 shuffle(real);
 shuffle(model1);
@@ -32,7 +63,6 @@ const combined = [].concat.apply(
 );
 shuffle(combined);
 numImages = combined.length;
-
 
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -76,7 +106,7 @@ function Model1(props, event) {
       setResult((result) => [
         ...result,
         {
-          file: combined[count].slice(0, -13).slice(14) + ".png",
+          file: combined[count].slice(combined[count].lastIndexOf("/") + 1),
           chosen: event.target.innerText.toLowerCase(),
           actual: event.target.innerText.toLowerCase(),
           result: "correct",
@@ -87,7 +117,7 @@ function Model1(props, event) {
       setResult((result) => [
         ...result,
         {
-          file: combined[count].slice(0, -13).slice(14) + ".png",
+          file: combined[count].slice(combined[count].lastIndexOf("/") + 1),
           chosen: event.target.innerText.toLowerCase(),
           actual: combined[count].toLowerCase().includes("real")
             ? "real"
@@ -113,6 +143,19 @@ function Model1(props, event) {
   } else {
     return (
       <div id="Model 1" className="center-screen">
+        <div id="para" style={{ paddingTop: 50, fontSize: 21 }}>
+          <p>
+            The purpose of this project is to generate realistic colored images
+            from black and white ones. <br></br>
+            <br></br>
+            In order to gauge model accuracy, vote "Real" if the colored image
+            looks realistic and "Fake" if the image was colored by the computer.{" "}
+            <br></br>
+            <br></br>
+            Once you've finished or just don't have time for more, submit by
+            pressing the Done button below.
+          </p>
+        </div>
         <div id="separate" className="grid">
           <div id="Photo" className="">
             <img alt={`Pic ${count}`} className="photo" src={combined[count]} />
